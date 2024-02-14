@@ -11,7 +11,7 @@ type ApiResponse = {
   total_photos: number;
 };
 
-const HomeScreen = () => {
+const ImageListScreen = () => {
   const [images, setImages] = useState<Photo[]>([]);
   const [loading, setLoading] = useState(false);
   const [offset, setOffset] = useState(0);
@@ -23,7 +23,6 @@ const HomeScreen = () => {
   }, []);
 
   const fetchData = async () => {
-    console.log(loading);
     if (loading) {
       return;
     }
@@ -59,4 +58,4 @@ const HomeScreen = () => {
   );
 };
 
-export default HomeScreen;
+export default ImageListScreen;

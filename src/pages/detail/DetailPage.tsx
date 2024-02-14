@@ -10,12 +10,11 @@ import {
   Dimensions,
   ScrollView,
   useColorScheme,
-  Modal,
 } from 'react-native';
 import {ImageDetailScreenScreenRouteProp} from '../../shared/types';
+import {ImageModal} from './ImageModal';
 
 const ImageDetailScreen = () => {
-  const [resize, setResize] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
   const route = useRoute<ImageDetailScreenScreenRouteProp>();
@@ -31,6 +30,11 @@ const ImageDetailScreen = () => {
     <ScrollView
       contentContainerStyle={styles.container}
       style={backgroundStyle}>
+      <ImageModal
+        url={image.url}
+        open={modalVisible}
+        setOpen={flag => setModalVisible(flag)}
+      />
       <TouchableOpacity
         onPress={() => {
           setModalVisible(true);
@@ -61,28 +65,6 @@ const ImageDetailScreen = () => {
           {image.description}
         </Text>
       </View>
-      <Modal
-        visible={modalVisible}
-        transparent={true}
-        onRequestClose={() => setModalVisible(false)}>
-        <View style={styles.modalContainer}>
-          <TouchableOpacity
-            style={styles.resizeButton}
-            onPress={() => setModalVisible(false)}>
-            <Text style={styles.closeText}>Close</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={() => setResize(!resize)}>
-            <Text style={styles.closeText}>Resize</Text>
-          </TouchableOpacity>
-          <Image
-            style={resize ? styles.resizeImage : styles.modalImage}
-            source={{uri: image.url}}
-            resizeMode="contain"
-          />
-        </View>
-      </Modal>
     </ScrollView>
   );
 };
@@ -113,36 +95,6 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     textAlign: 'center',
-  },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  closeButton: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-    zIndex: 1,
-  },
-  resizeButton: {
-    position: 'absolute',
-    top: 20,
-    left: 20,
-    zIndex: 1,
-  },
-  closeText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  modalImage: {
-    width: '90%',
-    height: '90%',
-  },
-  resizeImage: {
-    width: '190%',
-    height: '190%',
   },
 });
 

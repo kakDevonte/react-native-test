@@ -1,17 +1,17 @@
 import {useNavigation} from '@react-navigation/native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import React, {useState} from 'react';
 import {
   View,
-  FlatList,
-  Image,
-  StyleSheet,
-  ActivityIndicator,
-  TouchableOpacity,
   Text,
+  Image,
+  FlatList,
+  StyleSheet,
   useColorScheme,
+  TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {ImageListScreenNavigationProp, Photo} from '../../shared/types';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 type Props = {
   images: Photo[];
@@ -19,7 +19,7 @@ type Props = {
   onEndReached: () => void;
 };
 
-const ImageList: React.FC<Props> = ({images, loading, onEndReached}) => {
+const ImageList = ({images, loading, onEndReached}: Props) => {
   const navigation = useNavigation<ImageListScreenNavigationProp>();
   const [numColumns, setNumColumns] = useState(1);
 
@@ -45,8 +45,6 @@ const ImageList: React.FC<Props> = ({images, loading, onEndReached}) => {
     </TouchableOpacity>
   );
 
-  console.log('images', images);
-
   return (
     <View style={[styles.container, backgroundStyle]}>
       <TouchableOpacity style={styles.toggleButton} onPress={toggleNumColumns}>
@@ -57,13 +55,13 @@ const ImageList: React.FC<Props> = ({images, loading, onEndReached}) => {
         </Text>
       </TouchableOpacity>
       <FlatList
-        key={numColumns}
         data={images}
+        key={numColumns}
+        numColumns={numColumns}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
         onEndReached={onEndReached}
         onEndReachedThreshold={0.1}
-        numColumns={numColumns}
         ListFooterComponent={
           loading ? <ActivityIndicator size="large" /> : null
         }
